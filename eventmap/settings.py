@@ -82,11 +82,11 @@ WSGI_APPLICATION = "eventmap.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        'NAME': env('DATABASE_NAME'),
-        'USER': env('DATABASE_USER'),
-        'PASSWORD': env('DATABASE_PASSWORD'),
-        'HOST': env('DATABASE_HOST'),
-        'PORT': env('DATABASE_PORT')
+        'NAME': env('POSTGRES_DB_NAME'),
+        'USER': env('POSTGRES_DB_USER'),
+        'PASSWORD': env('POSTGRES_DB_PASSWORD'),
+        'HOST': env('POSTGRES_DB_HOST'),
+        'PORT': env('POSTGRES_DB_PORT')
     }
 }
 
