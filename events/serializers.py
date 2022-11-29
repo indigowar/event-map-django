@@ -56,6 +56,11 @@ class EventSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['id']
 
+    @staticmethod
+    def __create_subjects(subs: list[str], event: int):
+        for s in subs:
+            models.Subject(event_id=event, subject=s).save()
+
     def create(self, vd):
         subjects = vd.pop('subjects')
 
@@ -70,8 +75,31 @@ class EventSerializer(serializers.ModelSerializer):
         event.competitors.set(competitors)
         event.save()
 
-        for subject in subjects:
-            subject_model = models.Subject(subject=subject, event_id=event.id)
-            subject_model.save()
+        self.__create_subjects(subjects, event.id)
+
+        return event
+
+    def update(self, instance, validated_data):
+        subjects = validated_data.pop('subjects')
+
+        # update ranges
+
+        founding_range_data = validated_data.pop('founding_range')
+        founding_range_instance = FoundingRangeSerializer().update(instance=instance.founding_range,
+                                                                   validated_data=founding_range_data)
+
+        co_founding_range_data = validated_data.pop('co_founding_range')
+        co_founding_range_instance = CoFoundingRangeSerializer().update(instance=instance.co_founding_range,
+                                                                        validated_data=co_founding_range_data)
+
+        # co_founding_range = CoFoundingRangeSerializer().update(validated_data=validated_data.pop('co_founding_range'))
+        event = super(EventSerializer, self).update(instance, validated_data)
+        event.founding_range = founding_range_instance
+        event.co_founding_range = co_founding_range_instance
+        event.save()
+
+        # update subjects
+        models.Subject.objects.filter(event_id=event.id).delete()
+        self.__create_subjects(subjects, event.id)
 
         return event
