@@ -49,18 +49,29 @@ class EventSerializer(serializers.ModelSerializer):
     founding_range = FoundingRangeSerializer()
     co_founding_range = CoFoundingRangeSerializer()
 
-    subjects = SubjectSerializer(many=True)
+    subjects = serializers.ListSerializer(child=serializers.CharField())
 
     class Meta:
         model = models.Event
         fields = '__all__'
         read_only_fields = ['id']
 
-    # def create(self, validated_data):
-    #     subs = validated_data.pop('subjects')
-    #
-    #     new_event = models.Event.objects.create(**validated_data)
-    #
-    #     for s in subs:
-    #         subject = models.Subject(subject=s)
-    #         subject.save()
+    def create(self, vd):
+        subjects = vd.pop('subjects')
+
+        founding_range = FoundingRangeSerializer().create(validated_data=vd.pop('founding_range'))
+        co_founding_range = CoFoundingRangeSerializer().create(validated_data=vd.pop('co_founding_range'))
+
+        competitors = vd.pop('competitors')
+
+        event = models.Event.objects.create(**vd, founding_range=founding_range,
+                                            co_founding_range=co_founding_range)
+
+        event.competitors.set(competitors)
+        event.save()
+
+        for subject in subjects:
+            subject_model = models.Subject(subject=subject, event_id=event.id)
+            subject_model.save()
+
+        return event

@@ -67,3 +67,7 @@ class Event(models.Model):
     competitors = models.ManyToManyField(Competitor, related_name="event")
 
     precursor = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
+
+    @property
+    def subjects(self):
+        return Subject.objects.filter(event_id=self.id)
