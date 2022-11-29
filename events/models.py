@@ -43,6 +43,7 @@ class Competitor(models.Model):
 
 class Subject(models.Model):
     subject = models.CharField(max_length=255, blank=False)
+    event = models.ForeignKey('Event', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.subject
@@ -62,7 +63,7 @@ class Event(models.Model):
     document = models.CharField(max_length=512)
     internal_contacts = models.CharField(max_length=512)
     trl = models.IntegerField()
-    subjects = models.ManyToManyField(Subject, related_name="event")
+    # subjects = models.ManyToManyField(Subject, related_name="event")
     competitors = models.ManyToManyField(Competitor, related_name="event")
 
     precursor = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
