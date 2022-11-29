@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - HOST=127.0.0.1
+      - POSTGRES_DB_HOST=127.0.0.1:5432
+      - POSTGRES_DB_NAME=db
+      - POSTGRES_DB_PASSWORD=password
+      - POSTGRES_DB_PORT=5432
+      - POSTGRES_DB_USER=user
+      - SECRET=secret
+    volumes:
+      - .:/code
+
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+
+volumes:
+  postgres_data:
+
