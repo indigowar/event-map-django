@@ -7,13 +7,11 @@ WORKDIR /usr/src/eventmap
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get install -y dos2unix
-RUN apt-get install -y libpq-dev python-dev
-RUN apt-get install -y python-psycopg2
-RUN apt-get install -y libmariadb-dev-compat libmariadb-dev
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc \
-    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get -y install --no-install-recommends libpq-dev gcc build-essential && \
+    rm -rf /var/lib/apt/lists/*
 
 
 EXPOSE 8000
