@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework_filters',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -134,7 +135,10 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework_filters.backends.RestFrameworkFilterBackend', ...
+    ),
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
