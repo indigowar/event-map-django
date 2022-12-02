@@ -55,8 +55,5 @@ class EventFilterListAPIView(generics.ListAPIView):
     parser_classes = [JSONParser]
 
     def get_queryset(self):
-        data = filters.EventFilterData(self.request.data)
-        valid, err = data.is_valid()
-        if not valid:
-            return JsonResponse(status=status.HTTP_400_BAD_REQUEST, data={'error': err})
-        return filters.EventFilter().filtrate(data=data)
+        return filters.filtrate_event(self.request.data)
+
