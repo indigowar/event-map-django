@@ -17,6 +17,13 @@ class OrganizerSerializer(serializers.ModelSerializer):
         read_only_fields = ['id']
 
 
+class FoundingTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.FoundingType
+        fields = '__all__'
+        read_only_fields = ['id']
+
+
 class FoundingRangeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.FoundingRange

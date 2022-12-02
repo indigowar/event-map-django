@@ -28,6 +28,11 @@ class CompetitorListAPIView(generics.ListAPIView):
     serializer_class = serializers.CompetitorSerializer
 
 
+class FoundingTypeListAPIView(generics.ListAPIView):
+    queryset = models.FoundingType.objects.all()
+    serializer_class = serializers.FoundingTypeSerializer
+
+
 class EventListAndCreateAPIView(generics.ListCreateAPIView):
     queryset = models.Event.objects.all()
     serializer_class = serializers.EventSerializer
@@ -49,7 +54,6 @@ class EventFilterListAPIView(generics.ListAPIView):
         if not valid:
             return JsonResponse(status=status.HTTP_400_BAD_REQUEST, data={'error': err})
         return filters.EventFilter().filtrate(data=data)
-
 
 # @api_view(['GET'])
 # @parser_classes([JSONParser])
