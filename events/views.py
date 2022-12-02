@@ -39,20 +39,32 @@ class EventRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class EventFilterListAPIView(generics.ListAPIView):
-    queryset = models.Event.objects.all()
     serializer_class = serializers.EventSerializer
 
+    parser_classes = [JSONParser]
 
-@api_view(['GET'])
-@parser_classes([JSONParser])
-@permission_classes((permissions.AllowAny,))
-def filtering_events_view(request: HttpRequest) -> HttpResponse:
-    data = filters.EventFilterData(request.data)
-    valid, err = data.is_valid()
-    if not valid:
-        return JsonResponse(status=status.HTTP_400_BAD_REQUEST, data={'message': err})
-    queryset = filters.EventFilter().filtrate(data)
+    def get_queryset(self):
+        data = filters.EventFilterData(self.request.data)
+        valid, err = data.is_valid()
+        if not valid:
+            return JsonResponse(status=status.HTTP_400_BAD_REQUEST, data={'error': err})
+        return filters.EventFilter().filtrate(data=data)
 
-    serializer = serializers.EventSerializer()
 
-    return JsonResponse(status=status.HTTP_200_OK, data=serializer.data)
+# @api_view(['GET'])
+# @parser_classes([JSONParser])
+# @permission_classes((permissions.AllowAny,))
+# def filtering_events_view(request: HttpRequest) -> HttpResponse:
+#     data = filters.EventFilterData(request.data)
+#     valid, err = data.is_valid()
+#     if not valid:
+#         return JsonResponse(status=status.HTTP_400_BAD_REQUEST, data={'message': err})
+#     events = filters.EventFilter().filtrate(data)
+#
+#     if len(events) > 0:
+#         if len(events) == 1:
+#             serializer = serializers.EventSerializer(events)
+#             return JsonResponse(status=status.HTTP_200_OK, data=serializer.initial_data)
+#         serializer = serializers.EventSerializer(data=events, many=True)
+#         return JsonResponse(status=status.HTTP_200_OK, data=serializer.initial_data, safe=False)
+#     return JsonResponse(status=status.HTTP_404_NOT_FOUND, data={'message': 'nothing was found with this filters'})

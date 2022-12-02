@@ -9,5 +9,5 @@ urlpatterns = [
     path('competitor/', views.CompetitorListAPIView.as_view()),
     path('event/', views.EventListAndCreateAPIView.as_view()),
     path('event/<int:pk>', views.EventRetrieveUpdateDestroyAPIView.as_view()),
-    path('filtration', views.filtering_events_view)
+    path('filtration', views.EventFilterListAPIView.as_view())
 ]
