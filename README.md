@@ -16,3 +16,45 @@ POSTGRES_DB_PORT=db_port
 POSTGRES_DB_USER=db_user
 
 ```
+
+
+## Filtration
+
+Request:
+
+If any of the fields are unused, you should exclude from request.
+
+```json
+{
+"subjects": [
+id1,
+id2,
+...
+],
+"competitors": [
+id1,
+id2,
+...
+],
+"founding_range": {
+"low": 0,
+"high": 100
+},
+"co_founding_range": {
+"low": 0,
+"high": 15
+},
+"founding_type": [
+id1,
+id2,
+id3
+].
+"submission_deadline": {
+"start": "YYYY-MM-DD",
+"end": "YYYY-MM-DD"
+},
+"trl": [
+...
+],
+}
+```
