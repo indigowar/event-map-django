@@ -18,6 +18,13 @@ class Organizer(models.Model):
         return self.name
 
 
+class FoundingType(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
 class FoundingRange(models.Model):
     low = models.IntegerField()
     high = models.IntegerField()
@@ -52,7 +59,7 @@ class Subject(models.Model):
 class Event(models.Model):
     title = models.CharField(max_length=255)
     organizer = models.ForeignKey(Organizer, on_delete=models.CASCADE)
-    founding_type = models.CharField(max_length=1024)
+    founding_type = models.ManyToManyField(FoundingType, related_name="event")
     founding_range = models.OneToOneField(FoundingRange, on_delete=models.CASCADE)
     co_founding_range = models.OneToOneField(CoFoundingRange, on_delete=models.CASCADE)
     submission_deadline = models.DateField()
