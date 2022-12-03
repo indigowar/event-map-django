@@ -1,11 +1,14 @@
 import django.db.models
 from django.http import HttpRequest, HttpResponse, JsonResponse
 
+from django_filters import rest_framework
+
 from rest_framework import generics, status, permissions
 from rest_framework.decorators import api_view, parser_classes, permission_classes
 from rest_framework.parsers import JSONParser
 
-from events import serializers, models, filters
+from events import serializers, models
+from events.filters import *
 
 
 class OrganizerLevelListAPIView(generics.ListAPIView):
@@ -57,3 +60,9 @@ class EventFilterListAPIView(generics.ListAPIView):
     def get_queryset(self):
         return filters.filtrate_event(self.request.data)
 
+
+class EventFilterAPIView(generics.ListAPIView):
+    queryset = models.Event.objects.all()
+    serializer_class = serializers.EventSerializer
+    filter_backends = (rest_framework.DjangoFilterBackend,)
+    filterset_class = EventFilter

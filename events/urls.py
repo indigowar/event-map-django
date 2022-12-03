@@ -10,5 +10,5 @@ urlpatterns = [
     path('founding_type/', views.FoundingTypeListAPIView.as_view()),
     path('event/', views.EventListAndCreateAPIView.as_view()),
     path('event/<int:pk>', views.EventRetrieveUpdateDestroyAPIView.as_view()),
-    path('filtration/', views.EventFilterListAPIView.as_view())
+    path('filtration/', views.EventFilterAPIView.as_view())
 ]

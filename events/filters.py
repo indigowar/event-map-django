@@ -1,5 +1,6 @@
 import time
 
+import django_filters
 from django.db.models import QuerySet
 
 from events import models
@@ -40,6 +41,20 @@ from events import models
 }
 ```
 """
+
+
+class EventFilter(django_filters.FilterSet):
+    founding_type = django_filters.ModelMultipleChoiceFilter(queryset=models.FoundingType.objects.all())
+
+    class Meta:
+        model = models.Event
+        fields = [
+            'founding_type', 'submission_deadline', 'trl',
+
+            'organizer__level',
+            'founding_range__low', 'founding_range__high',
+            'co_founding_range__low', 'co_founding_range__high'
+        ]
 
 
 def __filtrate_event_by_subjects(q: QuerySet, subjects: list[str]) -> QuerySet:
