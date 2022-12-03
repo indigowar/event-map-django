@@ -43,36 +43,28 @@ from events import models
 """
 
 
-class EventFilter(django_filters.FilterSet):
-    founding_type = django_filters.ModelMultipleChoiceFilter(queryset=models.FoundingType.objects.all())
-
-    class Meta:
-        model = models.Event
-        fields = [
-            'founding_type', 'submission_deadline', 'trl',
-
-            'organizer__level',
-            'founding_range__low', 'founding_range__high',
-            'co_founding_range__low', 'co_founding_range__high'
-        ]
-
-
 def __filtrate_event_by_subjects(q: QuerySet, subjects: list[str]) -> QuerySet:
     event_ids = [s.event_id for s in models.Subject.objects.filter(subject__in=subjects)]
     return q.filter(pk__in=event_ids)
 
 
-# TODO: impelement
 def __filtrate_event_by_competitors(q: QuerySet, competitors: list[int]) -> QuerySet:
-    return q
+    return q.filter(competitors__in=competitors)
 
 
 def __filtrate_event_by_trl(q: QuerySet, trl: list[int]) -> QuerySet:
     return q.filter(trl__in=trl)
 
 
-# TODO: impelement
 def __filtrate_event_by_founding_range(q: QuerySet, data: dict) -> QuerySet:
+    if 'low' in data.keys():
+        low = data['low']
+        q = q.filter(founding_range__low__gte=low)
+
+    if 'high' in data.keys():
+        high = data['high']
+        q = q.filter(founding_range__high__lte=high)
+
     return q
 
 
