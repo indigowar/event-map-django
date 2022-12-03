@@ -60,16 +60,19 @@ def __filtrate_event_by_founding_range(q: QuerySet, data: dict) -> QuerySet:
     if 'low' in data.keys():
         low = data['low']
         q = q.filter(founding_range__low__gte=low)
-
     if 'high' in data.keys():
         high = data['high']
         q = q.filter(founding_range__high__lte=high)
-
     return q
 
 
-# TODO: impelement
 def __filtrate_event_by_co_founding_range(q: QuerySet, data: dict) -> QuerySet:
+    if 'low' in data.keys():
+        low = data['low']
+        q = q.filter(co_founding_range__low__gte=low)
+    if 'high' in data.keys():
+        high = data['high']
+        q = q.filter(co_founding_range__high__lte=high)
     return q
 
 
