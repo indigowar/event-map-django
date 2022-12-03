@@ -3,7 +3,7 @@ from django_filters import rest_framework
 from rest_framework import generics
 from rest_framework.parsers import JSONParser
 
-from events import serializers
+from events import serializers, filters
 from events.filters import *
 
 
@@ -55,10 +55,3 @@ class EventFilterListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         return filters.filtrate_event(self.request.data)
-
-
-class EventFilterAPIView(generics.ListAPIView):
-    queryset = models.Event.objects.all()
-    serializer_class = serializers.EventSerializer
-    filter_backends = (rest_framework.DjangoFilterBackend,)
-    filterset_class = EventFilter
