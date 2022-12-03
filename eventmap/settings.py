@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'events',
-    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -138,17 +137,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
-}
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': os.getenv('SECRET')
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
