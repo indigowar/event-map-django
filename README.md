@@ -1,5 +1,7 @@
 # event-map-django
 
+API Docs:[API.md](API.md)
+
 ## Deploy
 
 env file example:
