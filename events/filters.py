@@ -78,6 +78,12 @@ def __filtrate_event_by_co_founding_range(q: QuerySet, data: dict) -> QuerySet:
 
 # TODO: implement
 def __filtrate_event_by_submission_deadline(q: QuerySet, d: dict) -> QuerySet:
+    if 'start' in d.keys():
+        start_date = d['start']
+        q = q.filter(submission_deadline__gte=start_date)
+    if 'end' in d.keys():
+        end_date = d['end']
+        q = q.filter(submission_deadline__lte=end_date)
     return q
 
 
