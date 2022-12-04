@@ -8,7 +8,6 @@ urlpatterns = [
     path('organizer/<int:pk>', views.OrganizerRetrieveUpdateDestroyAPIView.as_view()),
     path('competitor/', views.CompetitorListAPIView.as_view()),
     path('founding_type/', views.FoundingTypeListAPIView.as_view()),
-    path('event/', views.EventListAndCreateAPIView.as_view()),
+    path('event/', views.EventListAndCreateAPIView.as_view({'get': 'list', 'post': 'create'})),
     path('event/<int:pk>', views.EventRetrieveUpdateDestroyAPIView.as_view()),
-    path('filtration/', views.EventFilterListAPIView.as_view())
 ]

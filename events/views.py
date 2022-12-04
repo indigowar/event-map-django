@@ -1,9 +1,9 @@
-from django_filters import rest_framework
+from django_filters import rest_framework as filters
 
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from rest_framework.parsers import JSONParser
 
-from events import serializers, filters
+from events import serializers
 from events.filters import *
 
 
@@ -32,26 +32,14 @@ class FoundingTypeListAPIView(generics.ListAPIView):
     serializer_class = serializers.FoundingTypeSerializer
 
 
-class EventListAndCreateAPIView(generics.ListCreateAPIView):
+class EventListAndCreateAPIView(viewsets.ModelViewSet):
     queryset = models.Event.objects.all()
     serializer_class = serializers.EventSerializer
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = EventFilter
 
 
 class EventRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Event.objects.all()
     serializer_class = serializers.EventSerializer
-
-
-class EventFilterListAPIView(generics.ListAPIView):
-    """
-    On GET returns a filtered list of events:
-
-    Request body: https://github.com/indigowar/event-map-django
-
-    """
-    serializer_class = serializers.EventSerializer
-
-    parser_classes = [JSONParser]
-
-    def get_queryset(self):
-        return filters.filtrate_event(self.request.data)

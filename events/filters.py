@@ -1,5 +1,3 @@
-import time
-
 import django_filters
 from django.db.models import QuerySet
 
@@ -109,3 +107,32 @@ def filtrate_event(data: dict) -> QuerySet:
         queryset = __filtrate_event_by_submission_deadline(queryset, data['submission_deadline '])
 
     return queryset
+
+
+class EventFilter(django_filters.FilterSet):
+    id = django_filters.AllValuesMultipleFilter()
+
+    # filtering by organizer's level
+    organizer__level__contains = django_filters.ModelMultipleChoiceFilter(field_name='organizer__level',
+                                                                          queryset=models.OrganizerLevel.objects.all())
+
+    # filters that low should be greater than given and high should be lesser
+    founding_range__low__gte = django_filters.NumberFilter(field_name='founding_range__low', lookup_expr='gte')
+    founding_range__high__lte = django_filters.NumberFilter(field_name='founding_range__high', lookup_expr='lte')
+
+    co_founding_range__low__gte = django_filters.NumberFilter(field_name='co_founding_range__low', lookup_expr='gte')
+    co_founding_range__high__lte = django_filters.NumberFilter(field_name='co_founding_range__high', lookup_expr='lte')
+
+    founding_type__contains = django_filters.ModelMultipleChoiceFilter(field_name='founding_type',
+                                                                       queryset=models.FoundingType.objects.all())
+
+    competitors__contains = django_filters.ModelMultipleChoiceFilter(field_name='competitors',
+                                                                     queryset=models.Competitor.objects.all())
+
+    submission_deadline__contains = django_filters.DateFilter(field_name='submission_deadline')
+
+    trl = django_filters.AllValuesMultipleFilter()
+
+    class Meta:
+        model = models.Event
+        fields = ['organizer']
