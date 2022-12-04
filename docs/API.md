@@ -43,27 +43,21 @@ Retrieve a list of organizers use `GET` to `api/v1/organizer`
 [
   {
     "id": 1,
-    "name": 'name a',
-    "logo": "loooogoo",
-    'level': 1
+    "name": "name a",
+    "logo": "logo",
+    "level": 1
   },
   {
-    'id': 1,
-    'name': 'name a',
-    'logo': "loooogoo",
-    'level': 1
+    "id": 1,
+    "name": "name a",
+    "logo": "logo",
+    "level": 1
   },
   {
-    'id': 1,
-    'name': 'name a',
-    'logo': "loooogoo",
-    'level': 1
-  },
-  {
-    'id': 1,
-    'name': 'name a',
-    'logo': "loooogoo",
-    'level': 1
+    "id": 1,
+    "name": "name a",
+    "logo": "logo",
+    "level": 1
   }
 ]
 ```
@@ -141,6 +135,25 @@ Update organizer using `PUT` to `api/v1/organizer/{id}` where `id` is id of orga
 ## Competitor
 
 To retrieve all competitors use `GET` to `api/v1/competitor/{id}`:
+
+### Filtration
+
+The base API route is `api/v1/event/?`.
+
+To filtrate by something you need add to this path next arguments, separated in a path by `&`:
+
+| PATH                                        | ARGUMENT                                | What filtering                           |
+|---------------------------------------------|-----------------------------------------|------------------------------------------|
+| `id=1&id=2&id=100`                          | 1, 2, 100 - is ids of events            | filtrate by event id                     |
+| `organizer_level=1&organizer_level=2`       | 1, 2 (ids of organizer levels)          | filtrate by this organizer levels        |
+| `competitors=1&competitors=2&competitors=3` | 1, 2, 3(ids of competitors)             | filtrate by competitors of event         |
+| `organizer=2&organizer=55`                  | 2, 55 - organizer's ids                 | filtrate by specific organizers          |
+| `f_range_min=2`                             | 2 - is minimum of founding range        | filtate by minimum of founding range     |
+| `f_range_max=100`                           | 100 - is a maximum of founding range    | filtrate by maximum of founding range    |
+| `cf_range_min=2`                            | 2 - is minimum of co-founding range     | filtate by minimum of co-founding range  |
+| `cf_range_max=100`                          | 100 - is a maximum of co-founding range | filtrate by maximum of co-founding range |
+| `founding=1&founding=5`                     | 1, 5 - is IDs of founding types         | filtrate by founding types               |
+| `trl=5&tlr=3&tlr=9`                         | values of TRL                           | filtate by trl                           |
 
 ### Response
 
