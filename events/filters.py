@@ -1,5 +1,4 @@
 import django_filters
-from django.db.models import QuerySet
 
 from events import models
 
@@ -39,74 +38,6 @@ from events import models
 }
 ```
 """
-
-
-def __filtrate_event_by_subjects(q: QuerySet, subjects: list[str]) -> QuerySet:
-    event_ids = [s.event_id for s in models.Subject.objects.filter(subject__in=subjects)]
-    return q.filter(pk__in=event_ids)
-
-
-def __filtrate_event_by_competitors(q: QuerySet, competitors: list[int]) -> QuerySet:
-    return q.filter(competitors__in=competitors)
-
-
-def __filtrate_event_by_trl(q: QuerySet, trl: list[int]) -> QuerySet:
-    return q.filter(trl__in=trl)
-
-
-def __filtrate_event_by_founding_range(q: QuerySet, data: dict) -> QuerySet:
-    if 'low' in data.keys():
-        low = data['low']
-        q = q.filter(founding_range__low__gte=low)
-    if 'high' in data.keys():
-        high = data['high']
-        q = q.filter(founding_range__high__lte=high)
-    return q
-
-
-def __filtrate_event_by_co_founding_range(q: QuerySet, data: dict) -> QuerySet:
-    if 'low' in data.keys():
-        low = data['low']
-        q = q.filter(co_founding_range__low__gte=low)
-    if 'high' in data.keys():
-        high = data['high']
-        q = q.filter(co_founding_range__high__lte=high)
-    return q
-
-
-# TODO: implement
-def __filtrate_event_by_submission_deadline(q: QuerySet, d: dict) -> QuerySet:
-    if 'start' in d.keys():
-        start_date = d['start']
-        q = q.filter(submission_deadline__gte=start_date)
-    if 'end' in d.keys():
-        end_date = d['end']
-        q = q.filter(submission_deadline__lte=end_date)
-    return q
-
-
-def filtrate_event(data: dict) -> QuerySet:
-    queryset = models.Event.objects.all()
-
-    if 'subjects' in data.keys():
-        queryset = __filtrate_event_by_subjects(queryset, data['subjects'])
-
-    if 'competitors' in data.keys():
-        queryset = __filtrate_event_by_competitors(queryset, data['competitors'])
-
-    if 'trl' in data.keys():
-        queryset = __filtrate_event_by_trl(queryset, data['tlr'])
-
-    if 'founding_range' in data.keys():
-        queryset = __filtrate_event_by_founding_range(queryset, data['founding_range'])
-
-    if 'co_founding_range' in data.keys():
-        queryset = __filtrate_event_by_co_founding_range(queryset, data['co_founding_range'])
-
-    if 'submission_deadline' in data.keys():
-        queryset = __filtrate_event_by_submission_deadline(queryset, data['submission_deadline '])
-
-    return queryset
 
 
 class EventFilter(django_filters.FilterSet):
