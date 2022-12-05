@@ -11,4 +11,5 @@ urlpatterns = [
     path('founding_type/', views.FoundingTypeListAPIView.as_view()),
     path('event/', views.EventListAndCreateAPIView.as_view({'get': 'list', 'post': 'create'})),
     path('event/<int:pk>', views.EventRetrieveUpdateDestroyAPIView.as_view()),
+    path('subjects', views.SubjectListAPIView.as_view())
 ]
