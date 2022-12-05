@@ -43,3 +43,13 @@ class EventListAndCreateAPIView(viewsets.ModelViewSet):
 class EventRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Event.objects.all()
     serializer_class = serializers.EventSerializer
+
+
+class CompetitorListAndCreateAPIView(generics.ListCreateAPIView):
+    queryset = models.Competitor.objects.all()
+    serializer_class = serializers.CompetitorSerializer
+
+
+class CompetitorRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Competitor.objects.all()
+    serializer_class = serializers.CompetitorSerializer
