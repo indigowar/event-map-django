@@ -56,5 +56,5 @@ class CompetitorRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIVi
 
 
 class SubjectListAPIView(generics.ListAPIView):
-    queryset = models.Subjects.objects.all()
+    queryset = models.Subject.objects.all()
     serializer_class = serializers.SubjectSerializer
