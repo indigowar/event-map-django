@@ -23,4 +23,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-ENTRYPOINT ["python", "manage.py", "runserver", 10000]
+ENTRYPOINT ["python", "manage.py", "runserver", "10000" ]
