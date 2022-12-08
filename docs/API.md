@@ -180,9 +180,11 @@ To filtrate by something you need add to this path next arguments, separated in 
 
 ## FoundingType
 
+### Get all
+
 To retrieve all founding types use `GET` to `api/v1/founding_type`.
 
-### Response
+#### Response
 
 ```json
 [
@@ -208,6 +210,53 @@ To retrieve all founding types use `GET` to `api/v1/founding_type`.
   }
 ]
 ```
+
+### Create
+
+To Create founding_type use `POST` to `api/v1/founding_type`:
+
+#### Request
+
+```json
+{
+  "name": "FoundingType2"
+}
+```
+
+#### Response
+
+```json
+{
+  "id": 2,
+  "name": "FoundingType2"
+}
+```
+
+### Update
+
+To update founding_type use `PUT` or `PATCH` to `api/v1/founding_type/{id}` where `id` is an id of founding type.
+
+#### Request
+
+```json
+{
+  "id": 2,
+  "name": "FoundingType2"
+}
+```
+
+#### Response
+
+```json
+{
+  "id": 2,
+  "name": "FoundingType2"
+}
+```
+
+### Delete
+
+To delete a founding type use `DELETE` to `api/v1/founding_type/{id}` - to delete a type with given id.
 
 ## Event
 

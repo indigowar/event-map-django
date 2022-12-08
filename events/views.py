@@ -58,3 +58,13 @@ class CompetitorRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIVi
 class SubjectListAPIView(generics.ListAPIView):
     queryset = models.Subject.objects.all()
     serializer_class = serializers.SubjectSerializer
+
+
+class FoundingTypeListCreateAPIView(generics.ListCreateAPIView):
+    queryset = models.FoundingType.objects.all()
+    serializer_class = serializers.FoundingTypeSerializer
+
+
+class FoundingTypeRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.FoundingType.objects.all()
+    serializer_class = serializers.FoundingTypeSerializer
