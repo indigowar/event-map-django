@@ -75,13 +75,14 @@ class EventSerializer(serializers.ModelSerializer):
         co_founding_range = CoFoundingRangeSerializer().create(validated_data=vd.pop('co_founding_range'))
 
         competitors = vd.pop('competitors')
-        founding_type = vd.pop('founding_range')
+        f_types = vd.pop('founding_type')
 
         event = models.Event.objects.create(**vd, founding_range=founding_range,
-                                            co_founding_range=co_founding_range, founding_type=founding_type)
+                                            co_founding_range=co_founding_range)
+        event.save()
 
         event.competitors.set(competitors)
-        event.founding_type.set(founding_type)
+        event.founding_type.set(f_types)
 
         event.save()
 
