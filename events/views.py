@@ -1,7 +1,6 @@
 from django_filters import rest_framework as filters
 
 from rest_framework import generics, viewsets
-from rest_framework.parsers import JSONParser
 
 from events import serializers
 from events.filters import *
