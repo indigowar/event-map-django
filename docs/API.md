@@ -309,7 +309,9 @@ To retrieve all events use `GET` to `api/v1/event/`
 
 ### Retrieve all as minimum
 
-To retrieve all events as minimal use `GET` to `api/v1/event_minimal
+To retrieve all events as minimal use `GET` to `api/v1/event_minimal.
+
+If you want to filtrate this query use `id=1&id=2&id=3` and so on.
 
 #### Response
 

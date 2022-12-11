@@ -69,6 +69,9 @@ class FoundingTypeRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPI
     serializer_class = serializers.FoundingTypeSerializer
 
 
-class MinimalEventListAPIView(generics.ListAPIView):
+class MinimalEventListAPIView(viewsets.ModelViewSet):
     queryset = models.Event.objects.all()
     serializer_class = serializers.MinimalEventSerializer
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = EventFilterByID

@@ -2,43 +2,6 @@ import django_filters
 
 from events import models
 
-"""""
-```json
-{
-    "subjects": [
-        id1,
-        id2,
-        ...
-    ],
-    "competitors": [
-        id1,
-        id2,
-        ...
-    ],
-    "founding_range": {
-        "low": 0,
-        "high": 100
-    },
-    "co_founding_range": {
-        "low": 0,
-        "high": 15
-    },
-    "founding_type": [
-        id1,
-        id2,
-        id3
-    ].
-    "submission_deadline": {
-        "start": "YYYY-MM-DD",
-        "end": "YYYY-MM-DD"
-    },
-    "trl": [
-        ...
-    ],
-}
-```
-"""
-
 
 class EventFilter(django_filters.FilterSet):
     id = django_filters.AllValuesMultipleFilter()
@@ -67,3 +30,10 @@ class EventFilter(django_filters.FilterSet):
     class Meta:
         model = models.Event
         fields = ['organizer']
+
+
+class EventFilterByID(django_filters.FilterSet):
+    id = django_filters.AllValuesMultipleFilter()
+
+    class meta:
+        model = models.Event
