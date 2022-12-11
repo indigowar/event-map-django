@@ -181,6 +181,8 @@ class EventNestedSerializer(serializers.ModelSerializer):
     founding_range = foundingRange()
     co_founding_range = coFoundingRange()
 
+    precursor = serializers.SlugRelatedField(slug_field='title')
+
     class Meta:
         model = models.Event
         fields = '__all__'
