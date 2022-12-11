@@ -307,6 +307,44 @@ To retrieve all events use `GET` to `api/v1/event/`
 ]
 ```
 
+### Retrieve all as minimum
+
+To retrieve all events as minimal use `GET` to `api/v1/event_minimal
+
+#### Response
+
+```json
+[
+  {
+    "id": 3,
+    "title": "title of event",
+    "organizer": {
+      "logo": "sadfghjkl;'",
+      "level": "LV1"
+    },
+    "founding_range": {
+      "low": 10,
+      "high": 2555
+    },
+    "co_founding_range": {
+      "low": 44,
+      "high": 45
+    },
+    "founding_type": [
+      "FoundingType1",
+      "FoundingType2"
+    ],
+    "submission_deadline": "2023-04-11",
+    "realisation_period": "real.period",
+    "competitors": [
+      0,
+      5,
+      1
+    ]
+  }
+]
+```
+
 ### Create a new one
 
 To create a new event use `POST` to `api/v1/event`

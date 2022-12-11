@@ -67,3 +67,8 @@ class FoundingTypeListCreateAPIView(generics.ListCreateAPIView):
 class FoundingTypeRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.FoundingType.objects.all()
     serializer_class = serializers.FoundingTypeSerializer
+
+
+class MinimalEventListAPIView(generics.ListAPIView):
+    queryset = models.Event.objects.all()
+    serializer_class = serializers.MinimalEventSerializer

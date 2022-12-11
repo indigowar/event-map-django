@@ -1,3 +1,4 @@
+import django.db.models
 from rest_framework import serializers
 
 from events import models
@@ -114,3 +115,42 @@ class EventSerializer(serializers.ModelSerializer):
         self.__create_subjects(subjects, event.id)
 
         return event
+
+
+class MinimalEventSerializer(serializers.ModelSerializer):
+    """
+    This serializer is required by front-end and does not really have usage anywhere but one view
+    """
+
+    class organizer(serializers.ModelSerializer):
+        level = serializers.SlugRelatedField(read_only=True, slug_field='code')
+
+        class Meta:
+            model = models.Organizer
+            fields = ['logo', 'level']
+
+    class foundingRange(serializers.ModelSerializer):
+        class Meta:
+            model = models.FoundingRange
+            fields = ['low', 'high']
+
+    class coFoundingRange(serializers.ModelSerializer):
+        class Meta:
+            model = models.CoFoundingRange
+            fields = ['low', 'high']
+
+    organizer = organizer()
+    competitors = serializers.SlugRelatedField(many=True, read_only=True, slug_field='code')
+    founding_type = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
+
+    founding_range = foundingRange()
+    co_founding_range = coFoundingRange()
+
+    class Meta:
+        model = models.Event
+        fields = [
+            'id', 'title', 'organizer',
+            'founding_range', 'co_founding_range',
+            'founding_type', 'submission_deadline',
+            'realisation_period', 'competitors'
+        ]
