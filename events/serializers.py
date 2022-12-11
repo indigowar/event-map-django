@@ -174,6 +174,10 @@ class EventNestedSerializer(serializers.ModelSerializer):
             model = models.Organizer
             fields = ['logo', 'level', 'name']
 
+    class precursor(serializers.ModelSerializer):
+        model = models.Event
+        fields = ['id', 'title', 'site']
+
     organizer = organizer()
     competitors = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
     founding_type = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
@@ -181,7 +185,8 @@ class EventNestedSerializer(serializers.ModelSerializer):
     founding_range = foundingRange()
     co_founding_range = coFoundingRange()
 
-    precursor = serializers.SlugRelatedField(slug_field='title')
+    precursor = precursor()
+
 
     class Meta:
         model = models.Event
