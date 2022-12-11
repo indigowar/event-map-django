@@ -563,3 +563,51 @@ To update a event `PUT` to `api/v1/event/{id}`
 ### Delete event
 
 To delete an event use `DELETE` to `api/v1/event/{id}` where `id` is an id of event.
+
+### Get all info for printing
+
+To get info for printing event on the card use `GET` to `api/v1/event_print/`.
+
+If you want to select specific events add `&id=1&id=...`
+
+#### Response
+
+```json
+[
+  {
+    "id": 3,
+    "organizer": {
+      "logo": "sadfghjkl;'",
+      "level": "LV1",
+      "name": "asdfghjkl;"
+    },
+    "competitors": [
+      "Competitor1",
+      "Competitor3",
+      "Competitor2"
+    ],
+    "founding_type": [
+      "FoundingType1",
+      "FoundingType2"
+    ],
+    "founding_range": {
+      "low": 10,
+      "high": 2555
+    },
+    "co_founding_range": {
+      "low": 44,
+      "high": 45
+    },
+    "title": "title of event",
+    "submission_deadline": "2023-04-11",
+    "consideration_period": "cons.period",
+    "realisation_period": "real.period",
+    "result": "result",
+    "site": "site",
+    "document": "doc",
+    "internal_contacts": "IC",
+    "trl": 6,
+    "precursor": 1
+  }
+]
+```

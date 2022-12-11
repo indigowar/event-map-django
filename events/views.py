@@ -75,3 +75,11 @@ class MinimalEventListAPIView(viewsets.ModelViewSet):
 
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = EventFilterByID
+
+
+class EventForPrintingListAPIView(viewsets.ModelViewSet):
+    queryset = models.Event.objects.all()
+    serializer_class = serializers.EventNestedSerializer
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = EventFilterByID

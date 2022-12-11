@@ -154,3 +154,33 @@ class MinimalEventSerializer(serializers.ModelSerializer):
             'founding_type', 'submission_deadline',
             'realisation_period', 'competitors'
         ]
+
+
+class EventNestedSerializer(serializers.ModelSerializer):
+    class foundingRange(serializers.ModelSerializer):
+        class Meta:
+            model = models.FoundingRange
+            fields = ['low', 'high']
+
+    class coFoundingRange(serializers.ModelSerializer):
+        class Meta:
+            model = models.CoFoundingRange
+            fields = ['low', 'high']
+
+    class organizer(serializers.ModelSerializer):
+        level = serializers.SlugRelatedField(read_only=True, slug_field='code')
+
+        class Meta:
+            model = models.Organizer
+            fields = ['logo', 'level', 'name']
+
+    organizer = organizer()
+    competitors = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
+    founding_type = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
+
+    founding_range = foundingRange()
+    co_founding_range = coFoundingRange()
+
+    class Meta:
+        model = models.Event
+        fields = '__all__'
