@@ -79,3 +79,6 @@ class Event(models.Model):
     @property
     def subjects(self):
         return Subject.objects.filter(event_id=self.id)
+
+    def __str__(self):
+        return self.title
