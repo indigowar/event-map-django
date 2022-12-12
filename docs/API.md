@@ -607,7 +607,17 @@ If you want to select specific events add `&id=1&id=...`
     "document": "doc",
     "internal_contacts": "IC",
     "trl": 6,
-    "precursor": 1
+    "precursor": {
+      "id": 1,
+      "title": "xxx",
+      "site": "https://example.com"
+    },
+    "subjects": [
+      "subject 1",
+      "subject 1",
+      "subject 1",
+      "subject 1"
+    ]
   }
 ]
 ```
