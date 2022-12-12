@@ -169,7 +169,8 @@ class MinimalEventSerializer(serializers.ModelSerializer):
             'id', 'title', 'organizer',
             'founding_range', 'co_founding_range',
             'founding_type', 'submission_deadline',
-            'realisation_period', 'competitors'
+            'realisation_period', 'competitors',
+            'trl'
         ]
 
 
