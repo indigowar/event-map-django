@@ -4,6 +4,23 @@ from rest_framework import serializers
 from events import models
 
 
+class RelatedFieldAlternative(serializers.PrimaryKeyRelatedField):
+    def __init__(self, **kwargs):
+        self.serializer = kwargs.pop('serializer', None)
+        if self.serializer is not None and not issubclass(self.serializer, serializers.Serializer):
+            raise TypeError('"serializer" is not a valid serializer class')
+
+        super().__init__(**kwargs)
+
+    def use_pk_only_optimization(self):
+        return False if self.serializer else True
+
+    def to_representation(self, instance):
+        if self.serializer:
+            return self.serializer(instance, context=self.context).data
+        return super().to_representation(instance)
+
+
 class OrganizerLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.OrganizerLevel
@@ -174,9 +191,10 @@ class EventNestedSerializer(serializers.ModelSerializer):
             model = models.Organizer
             fields = ['logo', 'level', 'name']
 
-    class precursor(serializers.ModelSerializer):
-        model = models.Event
-        fields = ['id', 'title', 'site']
+    class precursorSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = models.Event
+            fields = ['id', 'title', 'site']
 
     organizer = organizer()
     competitors = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
@@ -185,8 +203,9 @@ class EventNestedSerializer(serializers.ModelSerializer):
     founding_range = foundingRange()
     co_founding_range = coFoundingRange()
 
-    precursor = precursor()
+    subjects = serializers.ListSerializer(child=serializers.CharField())
 
+    precursor = RelatedFieldAlternative(queryset=models.Event.objects.all(), serializer=precursorSerializer)
 
     class Meta:
         model = models.Event
