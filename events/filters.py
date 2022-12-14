@@ -30,10 +30,3 @@ class EventFilter(django_filters.FilterSet):
     class Meta:
         model = models.Event
         fields = ['organizer']
-
-
-class EventFilterByID(django_filters.FilterSet):
-    id = django_filters.AllValuesMultipleFilter()
-
-    class meta:
-        model = models.Event
