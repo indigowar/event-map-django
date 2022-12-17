@@ -24,7 +24,7 @@ class EventFilter(django_filters.FilterSet):
     cf_range_min = django_filters.NumberFilter(field_name='co_founding_range__low', lookup_expr='gte')
     cf_range_max = django_filters.NumberFilter(field_name='co_founding_range__high', lookup_expr='lte')
 
-    founding_type = django_filters.ModelMultipleChoiceFilter(field_name='founding_type',
+    founding = django_filters.ModelMultipleChoiceFilter(field_name='founding_type',
                                                              queryset=models.FoundingType.objects.all())
 
     competitors = django_filters.ModelMultipleChoiceFilter(field_name='competitors',
