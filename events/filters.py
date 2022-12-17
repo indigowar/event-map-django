@@ -11,7 +11,8 @@ class OrganizerFilter(django_filters.FilterSet):
 
 class EventFilter(django_filters.FilterSet):
     id = django_filters.AllValuesMultipleFilter()
-    organizer = django_filters.AllValuesMultipleFilter()
+    organizer = django_filters.ModelMultipleChoiceFilter(field_name='organizer',
+                                                         queryset=models.Organizer.objects.all())
 
     # filtering by organizer's level
     organizer_level = django_filters.ModelMultipleChoiceFilter(field_name='organizer__level',
@@ -25,7 +26,7 @@ class EventFilter(django_filters.FilterSet):
     cf_range_max = django_filters.NumberFilter(field_name='co_founding_range__high', lookup_expr='lte')
 
     founding = django_filters.ModelMultipleChoiceFilter(field_name='founding_type',
-                                                             queryset=models.FoundingType.objects.all())
+                                                        queryset=models.FoundingType.objects.all())
 
     competitors = django_filters.ModelMultipleChoiceFilter(field_name='competitors',
                                                            queryset=models.Competitor.objects.all())
