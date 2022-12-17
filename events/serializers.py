@@ -20,44 +20,53 @@ class RelatedFieldAlternative(serializers.PrimaryKeyRelatedField):
         return super().to_representation(instance)
 
 
-class FullModelSerializersMeta(serializers.SerializerMetaclass):
-    fields = '__all__'
-    read_only_fields = ['id']
-
-
 class OrganizerLevelSerializer(serializers.ModelSerializer):
-    class Meta(FullModelSerializersMeta):
+    class Meta:
         model = models.OrganizerLevel
+        fields = '__all__'
+        read_only_fields = ['id']
 
 
 class OrganizerSerializer(serializers.ModelSerializer):
-    class Meta(FullModelSerializersMeta):
+    class Meta:
         model = models.Organizer
+        fields = '__all__'
+        read_only_fields = ['id']
 
 
 class FoundingTypeSerializer(serializers.ModelSerializer):
-    class Meta(FullModelSerializersMeta):
+    class Meta:
         model = models.FoundingType
+        fields = '__all__'
+        read_only_fields = ['id']
 
 
 class FoundingRangeSerializer(serializers.ModelSerializer):
-    class Meta(FullModelSerializersMeta):
+    class Meta:
         model = models.FoundingRange
+        fields = '__all__'
+        read_only_fields = ['id']
 
 
 class CoFoundingRangeSerializer(serializers.ModelSerializer):
-    class Meta(FullModelSerializersMeta):
+    class Meta:
         model = models.CoFoundingRange
+        fields = '__all__'
+        read_only_fields = ['id']
 
 
 class CompetitorSerializer(serializers.ModelSerializer):
-    class Meta(FullModelSerializersMeta):
+    class Meta:
         model = models.Competitor
+        fields = '__all__'
+        read_only_fields = ['id']
 
 
 class SubjectSerializer(serializers.ModelSerializer):
-    class Meta(FullModelSerializersMeta):
+    class Meta:
         model = models.Subject
+        fields = '__all__'
+        read_only_fields = ['id']
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -66,8 +75,10 @@ class EventSerializer(serializers.ModelSerializer):
 
     subjects = serializers.ListSerializer(child=serializers.CharField())
 
-    class Meta(FullModelSerializersMeta):
+    class Meta:
         model = models.Event
+        fields = '__all__'
+        read_only_fields = ['id']
 
     @staticmethod
     def __create_subjects(subs: list[str], event: int):
@@ -196,5 +207,7 @@ class EventNestedSerializer(serializers.ModelSerializer):
 
     precursor = RelatedFieldAlternative(queryset=models.Event.objects.all(), serializer=precursorSerializer)
 
-    class Meta(FullModelSerializersMeta):
+    class Meta:
         model = models.Event
+        fields = '__all__'
+        read_only_fields = ['id']
