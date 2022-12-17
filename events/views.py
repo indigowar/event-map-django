@@ -21,6 +21,14 @@ class OrganizerRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIVie
     serializer_class = serializers.OrganizerSerializer
 
 
+class OrganizerViewSet(viewsets.ModelViewSet):
+    queryset = models.Organizer.objects.all()
+    serializer_class = serializers.OrganizerSerializer
+
+    filter = OrganizerFilter
+    filter_backends = (filters.DjangoFilterBackend,)
+
+
 class CompetitorListAPIView(generics.ListAPIView):
     queryset = models.Competitor.objects.all()
     serializer_class = serializers.CompetitorSerializer

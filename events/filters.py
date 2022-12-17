@@ -3,8 +3,15 @@ import django_filters
 from events import models
 
 
+class OrganizerFilter(django_filters.FilterSet):
+    class Meta:
+        model = models.Organizer
+        fields = ['id']
+
+
 class EventFilter(django_filters.FilterSet):
     id = django_filters.AllValuesMultipleFilter()
+    organizer = django_filters.AllValuesMultipleFilter()
 
     # filtering by organizer's level
     organizer_level = django_filters.ModelMultipleChoiceFilter(field_name='organizer__level',
@@ -29,4 +36,4 @@ class EventFilter(django_filters.FilterSet):
 
     class Meta:
         model = models.Event
-        fields = ['organizer']
+        fields = []

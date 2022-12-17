@@ -4,7 +4,7 @@ from events import views
 
 urlpatterns = [
     path('organizer_level/', views.OrganizerLevelListAPIView.as_view()),
-    path('organizer/', views.OrganizerListCreateAPIView.as_view()),
+    path('organizer/', views.OrganizerViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('organizer/<int:pk>', views.OrganizerRetrieveUpdateDestroyAPIView.as_view()),
     path('competitor/', views.CompetitorListAndCreateAPIView.as_view()),
     path('competitor/<int:pk>', views.CompetitorRetrieveUpdateDestroyAPIView.as_view()),
