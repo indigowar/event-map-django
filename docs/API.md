@@ -185,6 +185,8 @@ To filtrate by something you need add to this path next arguments, separated in 
 | `cf_range_max=100`                          | 100 - is a maximum of co-founding range | filtrate by maximum of co-founding range |
 | `founding=1&founding=5`                     | 1, 5 - is IDs of founding types         | filtrate by founding types               |
 | `trl=5&tlr=3&tlr=9`                         | values of TRL                           | filtate by trl                           |
+| `submission_deadline_after=YYYY-MM-DD`      | date                                    | filtrate after the given date            |
+| `submission_deadline_before=YYYY-MM-DD`     | date                                    | filtrate before the given date           |
 
 ### Response
 
