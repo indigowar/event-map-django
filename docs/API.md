@@ -1,5 +1,36 @@
 # API
 
+## Authorization
+
+### Obtain a token
+
+To obtain a token use `POST` to `api/token/` with args `username` and `password`
+
+Like this example of cUrl:
+`http post http://127.0.0.1:8000/api/token/ username=vitor password=123`
+
+#### Response
+
+```json
+{
+    "access": "long long token...",
+    "refresh": "long in size but not in time token..."
+}
+```
+
+### Refresh token
+
+To get a new access token, you should use the refresh token endpoint `/api/token/refresh/` posting the refresh token:
+`http post http://127.0.0.1:8000/api/token/refresh/ refresh=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTU0NTMwODIyMiwianRpIjoiNzAyOGFlNjc0ZTdjNDZlMDlmMzUwYjg3MjU1NGUxODQiLCJ1c2VyX2lkIjoxfQ.Md8AO3dDrQBvWYWeZsd_A1J39z6b6HEwWIUZ7ilOiPE`
+
+#### Response
+```json
+{
+    "access": "...."
+}
+```
+
+
 ## Organizer_level
 
 To retrieve a list of organizers levels use: `GET` to `api/v1/organizer_level`
