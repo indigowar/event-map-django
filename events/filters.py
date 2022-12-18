@@ -31,7 +31,7 @@ class EventFilter(django_filters.FilterSet):
     competitors = django_filters.ModelMultipleChoiceFilter(field_name='competitors',
                                                            queryset=models.Competitor.objects.all())
 
-    submission_deadline = django_filters.DateRangeFilter(field_name='submission_deadline')
+    submission_deadline = django_filters.DateFromToRangeFilter(field_name='submission_deadline')
 
     trl = django_filters.AllValuesMultipleFilter()
 
