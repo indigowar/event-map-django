@@ -33,7 +33,7 @@ class EventFilter(django_filters.FilterSet):
 
     submission_deadline = django_filters.DateFromToRangeFilter(field_name='submission_deadline')
 
-    trl = django_filters.AllValuesMultipleFilter()
+    trl = django_filters.MultipleChoiceFilter(choices=[(x, x) for x in range(0, 10)])
 
     class Meta:
         model = models.Event
