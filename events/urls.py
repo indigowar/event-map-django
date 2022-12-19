@@ -3,54 +3,38 @@ from django.urls import path
 from events import views
 
 urlpatterns = [
-    path('organizer_level/', views.OrganizerLevelListAPIView.as_view()),
-    
-    path('organizer/', views.OrganizerListCreateAPIView.as_view()),
-    path('organizer/<int:pk>', views.OrganizerRetrieveUpdateDestroyAPIView.as_view()),
-    
-    path('competitor/', views.CompetitorListAndCreateAPIView.as_view()),
-    path('competitor/<int:pk>', views.CompetitorRetrieveUpdateDestroyAPIView.as_view()),
-    
-    path('event/', views.EventListAndCreateAPIView.as_view({'get': 'list', 'post': 'create'})),
-    path('event/<int:pk>', views.EventRetrieveUpdateDestroyAPIView.as_view()),
-    
-    path('event_minimal/', views.MinimalEventListAPIView.as_view({'get': 'list'})),
-    path('event_print/', views.EventForPrintingListAPIView.as_view({'get': 'list'})),
-    
-    path('subjects/', views.SubjectListAPIView.as_view()),
-    
-    path('founding_type/', views.FoundingTypeListCreateAPIView.as_view()),
-    path('founding_type/<int:pk>', views.FoundingTypeRetrieveUpdateDestroyAPIView.as_view()),
-
-
-    path('auth/organizer/', views.OrganizerViewSet.as_view({
-        'get':'list',
-        'post': 'create',
-    })),
-    path('auth/organizer/<int:pk>', views.OrganizerViewSet.as_view({
-        'get': 'retrieve',
-        'post': 'update',
-        'delete': 'destroy',
-    })),
-
-
-    path('auth/competitor/', views.CompetitorViewSet.as_view({
-        'get':'list',
-        'post': 'create',
-    })),
-    path('auth/competitor/<int:pk>', views.CompetitorViewSet.as_view({
-        'get': 'retrieve',
-        'post': 'update',
-        'delete': 'destroy',
-    })),
-
-    path('auth/founding_type/', views.FoundingTypeViewSet.as_view({
+    path('organizer/', views.OrganizerViewSet.as_view({
         'get': 'list',
         'post': 'create',
     })),
-    path('auth/founding_type/<int:pk>', views.FoundingTypeViewSet.as_view({
+    path('organizer/<int:pk>', views.OrganizerViewSet.as_view({
         'get': 'retrieve',
         'post': 'update',
         'delete': 'destroy',
     })),
+
+    path('competitor/', views.CompetitorViewSet.as_view({
+        'get': 'list',
+        'post': 'create',
+    })),
+    path('competitor/<int:pk>', views.CompetitorViewSet.as_view({
+        'get': 'retrieve',
+        'post': 'update',
+        'delete': 'destroy',
+    })),
+
+    path('founding_type/', views.FoundingTypeViewSet.as_view({
+        'get': 'list',
+        'post': 'create',
+    })),
+    path('founding_type/<int:pk>', views.FoundingTypeViewSet.as_view({
+        'get': 'retrieve',
+        'post': 'update',
+        'delete': 'destroy',
+    })),
+
+    path('event_minimal/', views.MinimalEventListAPIView.as_view({'get': 'list'})),
+    path('event_print/', views.EventForPrintingListAPIView.as_view({'get': 'list'})),
+
+    path('subjects/', views.SubjectListAPIView.as_view()),
 ]
