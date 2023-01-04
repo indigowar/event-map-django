@@ -29,6 +29,11 @@ class OrganizerViewSet(GeneralModelViewSet):
     serializer_class = serializers.OrganizerSerializer
 
 
+class OrganizerLevelViewSet(GeneralModelViewSet):
+    queryset = models.OrganizerLevel.objects.all()
+    serializer_class = serializers.OrganizerLevelSerializer
+
+
 class CompetitorViewSet(GeneralModelViewSet):
     queryset = models.Competitor.objects.all()
     serializer_class = serializers.CompetitorSerializer

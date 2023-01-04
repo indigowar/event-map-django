@@ -13,6 +13,17 @@ urlpatterns = [
         'delete': 'destroy',
     })),
 
+    path('organizer_level/', views.OrganizerLevelViewSet.as_view({
+        'get': 'list',
+        'post': 'create',
+    })),
+
+    path('organizer_level/<int:pk>', views.OrganizerLevelViewSet.as_view({
+        'get': 'retrieve',
+        'post': 'update',
+        'delete': 'destroy',
+    })),
+
     path('competitor/', views.CompetitorViewSet.as_view({
         'get': 'list',
         'post': 'create',
