@@ -44,6 +44,16 @@ urlpatterns = [
         'delete': 'destroy',
     })),
 
+    path('event/', views.EventViewSet.as_view({
+        'get': 'list',
+        'post': 'create',
+    })),
+    path('event/<int:pk>', views.EventViewSet.as_view({
+        'get': 'retrieve',
+        'put': 'update',
+        'delete': 'destroy',
+    })),
+
     path('event_minimal/', views.MinimalEventListAPIView.as_view({'get': 'list'})),
     path('event_print/', views.EventForPrintingListAPIView.as_view({'get': 'list'})),
 
