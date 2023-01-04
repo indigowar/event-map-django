@@ -56,6 +56,7 @@ urlpatterns = [
 
     path('event_minimal/', views.MinimalEventListAPIView.as_view({'get': 'list'})),
     path('event_print/', views.EventForPrintingListAPIView.as_view({'get': 'list'})),
+    path('event_print/<int:pk>', views.EventForPrintingListAPIView.as_view({'get': 'retrieve'})),
 
     path('subjects/', views.SubjectListAPIView.as_view()),
 ]
