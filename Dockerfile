@@ -23,6 +23,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN ["python", "manage.py", "migrate"]
+RUN [ "chmod", "+x", "./entrypoint.sh" ]
 
-ENTRYPOINT ["python", "manage.py", "runserver", "10000" ]
+ENTRYPOINT [ "./entrypoint.sh" ]
