@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:14
+    ports:
+      - '5432:5432'
+    restart: always
+    networks:
+      - back
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - POSTGRES_DB=eventmap
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+  backend:
+    build:
+      context: .
+    ports:
+      - '8000:10000'
+    restart: always
+    depends_on:
+      - db
+    networks:
+      - back
+    environment:
+      - POSTGRES_DB_NAME=eventmap
+      - POSTGRES_DB_USER=user
+      - POSTGRES_DB_PASSWORD=password
+      - POSTGRES_DB_HOST=db
+      - POSTGRES_DB_PORT=5432
+      - SECRET=secret
+      - ENV=dev
+      - HOST=127.0.0.1
+
+networks:
+  back:
+    driver: bridge
