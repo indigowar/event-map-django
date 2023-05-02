@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'events',
+    'users',
     'django_filters'
 ]
 
