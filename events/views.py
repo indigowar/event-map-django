@@ -1,7 +1,7 @@
 from django_filters import rest_framework as filters
 
 from rest_framework import generics, viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAdminUser
 
 from events import serializers, models
 from events.filters import EventFilter
@@ -16,7 +16,7 @@ class GeneralModelViewSet(viewsets.ModelViewSet):
     but all others(Create, Update,Delete) can be used only by authenticated users.
     """
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAdminUser,)
 
     def get_permissions(self):
         if self.request.method == 'GET':
