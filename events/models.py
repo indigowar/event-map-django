@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.contrib.auth.models import User
+
 
 class OrganizerLevel(models.Model):
     name = models.CharField(max_length=128)
@@ -82,3 +84,8 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class FavoriteList(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    events = models.ManyToManyField(Event)

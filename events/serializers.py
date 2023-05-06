@@ -211,3 +211,10 @@ class EventNestedSerializer(serializers.ModelSerializer):
         model = models.Event
         fields = '__all__'
         read_only_fields = ['id']
+
+
+class FavoriteListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.FavoriteList
+        fields = '__all__'
+        read_only_fields = ('user',)
