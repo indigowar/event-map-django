@@ -59,4 +59,10 @@ urlpatterns = [
     path('event_print/<int:pk>', views.EventForPrintingListAPIView.as_view({'get': 'retrieve'})),
 
     path('subjects/', views.SubjectListAPIView.as_view()),
+
+    path('favorite_list/', views.FavoriteListAPIView.as_view({
+        'get': 'retrieve',
+        'post': 'create',
+        'put': 'update',
+    }))
 ]

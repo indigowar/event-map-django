@@ -89,7 +89,7 @@ class FavoriteListAPIView(viewsets.ModelViewSet):
     permission_classes = (IsFavoriteOwner,)
 
     def list(self, request, *args, **kwargs):
-        instance = self.queryset.filter(usre=request.user.id)
+        instance = self.queryset.filter(user=request.user.id)
         serializer = self.serializer_class(data=instance)
         return Response(serializer.data)
 
