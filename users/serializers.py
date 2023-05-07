@@ -1,3 +1,5 @@
+from django.contrib.auth.hashers import make_password
+
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
@@ -30,13 +32,14 @@ class RegisterSerializer(serializers.ModelSerializer):
             'last_name': {'required': True},
         }
 
-        def create(self, validated_data):
-            user = User.objects.create(
-                username=validated_data['username'],
-                email=validated_data['email'],
-                first_name=validated_data['first_name'],
-                last_name=validated_data['last_name'],
-            )
-            user.set_password(validated_data['password'])
-            user.save()
-            return user
+    def validate_password(self, password: str) -> str:
+        return make_password(password)
+
+    def create(self, validated_data):
+        password = validated_data.pop('password', None)
+        instance = self.Meta().model(**validated_data)
+        instance.is_active = True 
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
