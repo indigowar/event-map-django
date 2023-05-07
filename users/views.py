@@ -1,11 +1,9 @@
-from django.contrib.auth.models import User, Permission, Group
+from django.contrib.auth.models import User
 
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView
-from rest_framework.request import Request
+from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, BasePermission
-from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny, IsAuthenticated, BasePermission
 
 from .serializers import UserSerializer, RegisterSerializer, OnlyIDUserSerializer
 
@@ -14,6 +12,17 @@ class UserDetailsAPIView(RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (AllowAny,)
+
+
+class RetrieveUserSelfInfoAPIView(RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.request.user
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 
 class RegisterUserAPIView(CreateAPIView):
@@ -47,7 +56,6 @@ class GrandPermissionAPIView(CreateAPIView):
         target.save()
 
         return Response(data=s.data, status=status.HTTP_202_ACCEPTED)
-
 
 # class GrandPermissionsAPIView(CreateAPIView):
 #     serializer_class = OnlyIDUserSerializer()
