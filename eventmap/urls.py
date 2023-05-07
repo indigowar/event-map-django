@@ -12,5 +12,7 @@ urlpatterns = [
 
     path('api/user/', include('users.urls')),
 
+    path('accounts/', include('rest_registration.api.urls')),
+
     path("admin/", admin.site.urls),
 ]

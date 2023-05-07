@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'events',
     'users',
-    'django_filters'
+    'django_filters',
+    'rest_registration',
 ]
 
 MIDDLEWARE = [
@@ -134,12 +135,12 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-        'DEFAULT_AUTHENTICATION_CLASSES': [
-            'rest_framework_simplejwt.authentication.JWTAuthentication',
-        ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
     # 'DEFAULT_PERMISSION_CLASSES': [
     #    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    #],
+    # ],
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -147,5 +148,8 @@ CORS_ALLOW_CREDENTIALS = True
 ALLOWED_HOSTS = [os.getenv('HOST')]
 CSRF_TRUSTED_ORIGINS = ['https://127.0.0.1', 'https://' + os.getenv('HOST')]
 
-
-
+REST_REGISTRATION = {
+    'REGISTER_VERIFICATION_ENABLED': False,
+    'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
+    'RESET_PASSWORD_VERIFICATION_ENABLED': False,
+}
