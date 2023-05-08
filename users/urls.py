@@ -6,5 +6,6 @@ urlpatterns = [
     path('about/<int:pk>', views.UserDetailsAPIView.as_view()),
     path('info', views.RetrieveUserSelfInfoAPIView.as_view()),
     path('register', views.RegisterUserAPIView.as_view()),
-    path('grand', views.GrandPermissionAPIView.as_view())
+    path('grand', views.GrandPermissionAPIView.as_view()),
+    path('list', views.ListUserAPIView.as_view()),
 ]
