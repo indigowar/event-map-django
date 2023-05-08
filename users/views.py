@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, BasePermission
 
@@ -57,15 +57,7 @@ class GrandPermissionAPIView(CreateAPIView):
 
         return Response(data=s.data, status=status.HTTP_202_ACCEPTED)
 
-# class GrandPermissionsAPIView(CreateAPIView):
-#     serializer_class = OnlyIDUserSerializer()
-#     permission_classes = (IsSuperUser,)
-#
-#     def post(self, request, *args, **kwargs):
-#         parsed = OnlyIDUserSerializer(data=request.body)
-#         if parsed.is_valid(raise_exception=True):
-#             user_id = parsed.data.get('id')
-#             target = User.objects.get(pk=user_id)
-#
-#             return Response(data=parsed.data, status=status.HTTP_200_OK)
-#         return Response(parsed.errors, status=status.HTTP_400_BAD_REQUEST)
+class ListUserAPIVIew(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (IsSuperUser, )
