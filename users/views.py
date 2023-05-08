@@ -57,7 +57,7 @@ class GrandPermissionAPIView(CreateAPIView):
 
         return Response(data=s.data, status=status.HTTP_202_ACCEPTED)
 
-class ListUserAPIVIew(ListAPIView):
+class ListUserAPIView(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsSuperUser, )
