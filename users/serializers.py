@@ -16,7 +16,7 @@ class OnlyIDUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id',)
-        read_only_fields = ('id', )
+        read_only_fields = ('id',)
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -38,7 +38,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         password = validated_data.pop('password', None)
         instance = self.Meta().model(**validated_data)
-        instance.is_active = True 
+        instance.is_active = True
         if password is not None:
             instance.set_password(password)
         instance.save()
