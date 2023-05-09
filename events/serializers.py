@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from django.contrib.auth.models import User
+
 from events import models
 
 
@@ -214,7 +216,9 @@ class EventNestedSerializer(serializers.ModelSerializer):
 
 
 class FavoriteListSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.id')
+    events = serializers.ListSerializer(child=serializers.ReadOnlyField(source='events.id'))
+
     class Meta:
         model = models.FavoriteList
-        fields = '__all__'
-        read_only_fields = ('user',)
+        fields = ('user', 'events',)
