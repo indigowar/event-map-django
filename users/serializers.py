@@ -16,7 +16,6 @@ class OnlyIDUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id',)
-        read_only_fields = ('id',)
 
 
 class RegisterSerializer(serializers.ModelSerializer):
