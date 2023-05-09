@@ -57,7 +57,28 @@ class GrandPermissionAPIView(CreateAPIView):
 
         return Response(data=s.data, status=status.HTTP_202_ACCEPTED)
 
+
+class DeGrandPermissionAPIView(CreateAPIView):
+    serializer_class = OnlyIDUserSerializer
+    permission_classes = (IsSuperUser,)
+
+    def create(self, request, *args, **kwargs):
+        s = OnlyIDUserSerializer(data=request.body)
+
+        if not s.is_valid():
+            return Response(s.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        user_id = s.data.get('id')
+        target = User.objects.get(pk=user_id)
+        if not target.is_staff:
+            return Response(data=request.body, status=status.HTTP_400_BAD_REQUEST)
+        target.is_staff = False
+        target.save()
+
+        return Response(data=s.data, status=status.HTTP_202_ACCEPTED)
+
+
 class ListUserAPIView(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsSuperUser, )
+    permission_classes = (IsSuperUser,)

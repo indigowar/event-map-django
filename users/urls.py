@@ -7,5 +7,6 @@ urlpatterns = [
     path('info', views.RetrieveUserSelfInfoAPIView.as_view()),
     path('register', views.RegisterUserAPIView.as_view()),
     path('grand', views.GrandPermissionAPIView.as_view()),
+    path('degrand', views.DeGrandPermissionAPIView.as_view()),
     path('list', views.ListUserAPIView.as_view()),
 ]
