@@ -70,14 +70,30 @@ def grand_permission(request, target_id: int):
 #
 #         return Response(data=s.data, status=status.HTTP_202_ACCEPTED)
 
+class PromoteToStaffAPIView(GenericAPIView):
+    permission_classes = (IsSuperUser,)
+
+    def put(self, request, user_id):
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({'error': f'User {user_id} not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        user.is_staff = True
+        user.save()
+
+        return Response({'success': f'User {user.username} has been promoted to staff.'}, status=status.HTTP_200_OK)
+
+
 def promote_user_to_staff(request, user_id):
     if request.user.is_superuser:
-        user = User.objects.get(pk=user_id)
+        user = User.objects.filter(pk=user_id)
+        if len(user) == 0:
+            return Response(data={"msg": 'User does not exist'}, status=status.HTTP_404_NOT_FOUND)
         user.is_staff = True
         user.save()
         return Response(data={"msg": 'User promoted to staff successfully!'}, status=status.HTTP_202_ACCEPTED)
-    else:
-        return Response({'msg': 'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'msg': 'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class DeGrandPermissionAPIView(CreateAPIView):
