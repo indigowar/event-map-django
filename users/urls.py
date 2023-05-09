@@ -7,6 +7,6 @@ urlpatterns = [
     path('info', views.RetrieveUserSelfInfoAPIView.as_view()),
     path('register', views.RegisterUserAPIView.as_view()),
     path('grand/<int:user_id>/', views.PromoteToStaffAPIView.as_view(), name='promote_user_to_staff'),
-    path('degrand', views.DeGrandPermissionAPIView.as_view()),
+    path('degrand/<int:user_id>/', views.DeGrandPermissionAPIView.as_view()),
     path('list', views.ListUserAPIView.as_view()),
 ]
