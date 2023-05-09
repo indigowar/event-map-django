@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView, GenericAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, BasePermission
 
@@ -69,6 +69,15 @@ def grand_permission(request, target_id: int):
 #         target.save()
 #
 #         return Response(data=s.data, status=status.HTTP_202_ACCEPTED)
+
+def promote_user_to_staff(request, user_id):
+    if request.user.is_superuser:
+        user = User.objects.get(pk=user_id)
+        user.is_staff = True
+        user.save()
+        return Response(data={"msg": 'User promoted to staff successfully!'}, status=status.HTTP_202_ACCEPTED)
+    else:
+        return Response({'msg': 'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class DeGrandPermissionAPIView(CreateAPIView):
