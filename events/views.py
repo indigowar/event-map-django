@@ -1,9 +1,7 @@
-from django.contrib.auth.models import Permission
-
 from django_filters import rest_framework as filters
 
 from rest_framework import generics, viewsets
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated, BasePermission
 from rest_framework.response import Response
 
 from events import serializers, models
@@ -75,23 +73,28 @@ class EventForPrintingListAPIView(viewsets.ModelViewSet):
     filterset_class = EventFilter
 
 
-class IsFavoriteOwner(Permission):
-    def has_permission(self, request, view):
-        return request.user and request.user.is_authenticated
+class IsObjectOwner(BasePermission):
+    """
+    Custom permission to check if the authenticated user is the owner of the object in question
+    """
 
-    def has_object_permission(self, request, view, favorite_list):
-        return favorite_list.user.id == request.user.id
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user
 
 
 class FavoriteListAPIView(viewsets.ModelViewSet):
     queryset = models.FavoriteList.objects.all()
     serializer_class = serializers.FavoriteListSerializer
-    permission_classes = (IsFavoriteOwner,)
 
-    def list(self, request, *args, **kwargs):
+    permission_classes = (IsAuthenticated, IsObjectOwner,)
+
+    def retrieve(self, request, *args, **kwargs):
         instance = self.queryset.filter(user=request.user.id)
         serializer = self.serializer_class(data=instance)
         return Response(serializer.data)
 
-    def retrieve(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    def create(self, request, *args, **kwargs):
+        super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        super().update(request, *args, **kwargs)
