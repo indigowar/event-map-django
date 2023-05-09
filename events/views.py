@@ -86,8 +86,6 @@ class FavoriteListAPIView(viewsets.ModelViewSet):
     queryset = models.FavoriteList.objects.all()
     serializer_class = serializers.FavoriteListSerializer
 
-    permission_classes = (IsAuthenticated,)
-
     def retrieve(self, request, *args, **kwargs):
         instance = self.queryset.filter(user=request.user.id)
         serializer = self.serializer_class(data=instance)
