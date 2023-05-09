@@ -40,22 +40,35 @@ class IsSuperUser(BasePermission):
         return request.user and request.user.is_superuser
 
 
-class GrandPermissionAPIView(CreateAPIView):
-    serializer_class = OnlyIDUserSerializer
-    permission_classes = (IsSuperUser,)
+def grand_permission(request, target_id: int):
+    if not request.user.is_superuser:
+        return Response(data={"error": "Not Authorized"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    def create(self, request, *args, **kwargs):
-        s = OnlyIDUserSerializer(data=request.body)
+    instance = User.objects.get(pk=target_id)
 
-        if not s.is_valid():
-            return Response(s.errors, status=status.HTTP_400_BAD_REQUEST)
+    if instance.is_staff:
+        return Response(data={"error": "User already is staff"}, status=status.HTTP_400_BAD_REQUEST)
 
-        user_id = s.data.get('id')
-        target = User.objects.get(pk=user_id)
-        target.is_staff = True
-        target.save()
+    instance.is_staff = True
+    instance.save()
+    return Response(data={"message": "OK."}, status=status.HTTP_202_ACCEPTED)
 
-        return Response(data=s.data, status=status.HTTP_202_ACCEPTED)
+
+# class GrandPermissionAPIView(CreateAPIView):
+#     permission_classes = (IsSuperUser,)
+#
+#     def create(self, request, *args, **kwargs):
+#         user_id =
+#
+#         if not s.is_valid():
+#             return Response(s.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+#         user_id = s.data.get('id')
+#         target = User.objects.get(pk=user_id)
+#         target.is_staff = True
+#         target.save()
+#
+#         return Response(data=s.data, status=status.HTTP_202_ACCEPTED)
 
 
 class DeGrandPermissionAPIView(CreateAPIView):
