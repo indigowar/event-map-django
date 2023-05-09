@@ -85,35 +85,19 @@ class PromoteToStaffAPIView(GenericAPIView):
         return Response({'success': f'User {user.username} has been promoted to staff.'}, status=status.HTTP_200_OK)
 
 
-def promote_user_to_staff(request, user_id):
-    if request.user.is_superuser:
-        user = User.objects.filter(pk=user_id)
-        if len(user) == 0:
-            return Response(data={"msg": 'User does not exist'}, status=status.HTTP_404_NOT_FOUND)
-        user.is_staff = True
-        user.save()
-        return Response(data={"msg": 'User promoted to staff successfully!'}, status=status.HTTP_202_ACCEPTED)
-    return Response({'msg': 'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)
-
-
 class DeGrandPermissionAPIView(CreateAPIView):
-    serializer_class = OnlyIDUserSerializer
     permission_classes = (IsSuperUser,)
 
-    def create(self, request, *args, **kwargs):
-        s = OnlyIDUserSerializer(data=request.body)
+    def put(self, request, user_id):
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({'error': f'User {user_id} not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-        if not s.is_valid():
-            return Response(s.errors, status=status.HTTP_400_BAD_REQUEST)
+        user.is_staff = False
+        user.save()
 
-        user_id = s.data.get('id')
-        target = User.objects.get(pk=user_id)
-        if not target.is_staff:
-            return Response(data=request.body, status=status.HTTP_400_BAD_REQUEST)
-        target.is_staff = False
-        target.save()
-
-        return Response(data=s.data, status=status.HTTP_202_ACCEPTED)
+        return Response({'success': f'User {user.username} has been promoted to staff.'}, status=status.HTTP_200_OK)
 
 
 class ListUserAPIView(ListAPIView):
