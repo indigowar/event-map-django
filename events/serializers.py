@@ -233,10 +233,11 @@ class FavoriteListSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         events_id = validated_data.pop('events')
-        events = [models.Event.objects.get(pk=x) for x in events_id]
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        if events is not None:
-            instance.events.set(events)
+        if events_id is None:
+            return
+        events = models.Event.objects.filter(pk__in=events_id)
+        if len(events_id) != len(events):
+            raise models.Event.DoesNotExist()
+        instance.events.set(events)
         instance.save()
         return instance
