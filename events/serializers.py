@@ -216,9 +216,25 @@ class EventNestedSerializer(serializers.ModelSerializer):
 
 
 class FavoriteListSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.id')
-    events = serializers.ListSerializer(child=serializers.ReadOnlyField(source='events.id'))
+    events = serializers.ListSerializer(child=serializers.IntegerField())
 
     class Meta:
         model = models.FavoriteList
-        fields = ('user', 'events',)
+        fields = ('user', 'events')
+        read_only_fields = ('user',)
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        events = validated_data.pop('events')
+        favorite_list = models.FavoriteList.objects.create(user=user, **validated_data)
+        favorite_list.events.set(events)
+        return favorite_list
+
+    def update(self, instance, validated_data):
+        events = validated_data.pop('events')
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        if events is not None:
+            instance.events.set(events)
+        instance.save()
+        return instance

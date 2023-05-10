@@ -1,7 +1,8 @@
 from django_filters import rest_framework as filters
 
 from rest_framework import generics, viewsets
-from rest_framework.permissions import IsAdminUser, IsAuthenticated, BasePermission
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import BasePermission, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
 from events import serializers, models
@@ -74,10 +75,6 @@ class EventForPrintingListAPIView(viewsets.ModelViewSet):
 
 
 class IsObjectOwner(BasePermission):
-    """
-    Custom permission to check if the authenticated user is the owner of the object in question
-    """
-
     def has_object_permission(self, request, view, obj):
         return obj.user == request.user
 
@@ -85,14 +82,23 @@ class IsObjectOwner(BasePermission):
 class FavoriteListAPIView(viewsets.ModelViewSet):
     queryset = models.FavoriteList.objects.all()
     serializer_class = serializers.FavoriteListSerializer
+    permission_classes = (IsAuthenticated, IsObjectOwner)
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.queryset.filter(user=request.user.id)
-        serializer = self.serializer_class(data=instance)
-        return Response(serializer.data)
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        obj = queryset.filter(user=self.request.user).first()
+        return obj
 
     def create(self, request, *args, **kwargs):
-        super().create(request, *args, **kwargs)
+        obj = self.get_object()
+        if obj:
+            raise PermissionDenied("Favorite list already exists for this user.")
+        return super().create(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
-        super().update(request, *args, **kwargs)
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_vali(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
