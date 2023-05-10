@@ -102,3 +102,6 @@ class FavoriteListAPIView(viewsets.ModelViewSet):
         serializer.is_vali(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)
