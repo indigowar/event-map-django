@@ -216,7 +216,7 @@ class EventNestedSerializer(serializers.ModelSerializer):
 
 
 class FavoriteListSerializer(serializers.ModelSerializer):
-    events = serializers.ListSerializer(child=serializers.IntegerField())
+    events = serializers.PrimaryKeyRelatedField(many=True, queryset=models.Event.objects.all())
 
     class Meta:
         model = models.FavoriteList
@@ -225,19 +225,13 @@ class FavoriteListSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context['request'].user
-        events_id = validated_data.pop('events')
-        events = [models.Event.objects.get(pk=x) for x in events_id]
+        events = validated_data.pop('events')
         favorite_list = models.FavoriteList.objects.create(user=user, **validated_data)
         favorite_list.events.set(events)
         return favorite_list
 
     def update(self, instance, validated_data):
-        events_id = validated_data.pop('events')
-        if events_id is None:
-            return
-        events = models.Event.objects.filter(pk__in=events_id)
-        if len(events_id) != len(events):
-            raise models.Event.DoesNotExist()
+        events = validated_data.pop('events')
         instance.events.set(events)
         instance.save()
         return instance
